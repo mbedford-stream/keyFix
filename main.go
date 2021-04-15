@@ -10,13 +10,13 @@ import (
 	"strconv"
 	"strings"
 
-	"mbgofuncs/mbfile"
-	"mbgofuncs/mbrandom"
+	"github.com/mbedford-stream/mbgofuncs/mbfile"
+	"github.com/mbedford-stream/mbgofuncs/mbrandom"
 
 	"github.com/fatih/color"
 )
 
-// Global vars just in case we need to pass them around.
+// Global vars just in case we need to pass them around
 var green = color.New(color.FgGreen).SprintfFunc()
 var red = color.New(color.FgRed).SprintfFunc()
 var yellow = color.New(color.FgYellow).SprintfFunc()
@@ -47,7 +47,6 @@ func main() {
 	}
 
 	if undoFile {
-		s
 		restoreConfirm := mbrandom.ForceSelect("Restore previous known_hosts file from backup? (y/n): ", "y", "n")
 		if restoreConfirm == "y" {
 			err := prevRestore()
@@ -88,7 +87,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	_, err = mbfile.WriteListToFile(newFile, hostsFile, 0666)
+	err = mbfile.WriteListToFile(newFile, hostsFile, 0666)
 	if err != nil {
 		fmt.Printf("Could not create new file: %s\n%s", hostsFile, err)
 		os.Exit(0)
@@ -131,11 +130,11 @@ func removeLine(lineNum int, fileLines []string) ([]string, error) {
 }
 
 func prevRestore() error {
-	_, err := mbfile.CopyFile(hostsFile, hostsFile+".pre-undo", 0666)
+	err := mbfile.CopyFile(hostsFile, hostsFile+".pre-undo", 0666)
 	if err != nil {
 		return errors.New("Could not create pre-undo file, exiting")
 	}
-	_, err = mbfile.CopyFile(hostsFile+".backup", hostsFile, 0666)
+	err = mbfile.CopyFile(hostsFile+".backup", hostsFile, 0666)
 	if err != nil {
 		return errors.New("Could not restore file, exiting")
 	}
@@ -144,7 +143,7 @@ func prevRestore() error {
 }
 
 func createBackup() error {
-	_, err := mbfile.CopyFile(hostsFile, hostsFile+".backup", 0666)
+	err := mbfile.CopyFile(hostsFile, hostsFile+".backup", 0666)
 	if err != nil {
 		return errors.New(fmt.Sprintf("Could not create backup of current file: \n%s", err))
 	}
