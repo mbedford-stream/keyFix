@@ -35,7 +35,7 @@ func main() {
 	// Get current user home directory
 	homedir, err := os.UserHomeDir()
 	if err != nil {
-		fmt.Printf(red("Can't detect home directory"))
+		fmt.Println(red("Can't detect home directory"))
 		os.Exit(0)
 	}
 	hostsFile = homedir + "/.ssh/known_hosts"
@@ -83,7 +83,7 @@ func main() {
 
 	newFile, err := removeLine(fixLine, hostsLines)
 	if err != nil {
-		fmt.Printf(red("%s\n", err))
+		fmt.Println(red("%s\n", err))
 		os.Exit(0)
 	}
 
@@ -107,7 +107,7 @@ func removeLine(lineNum int, fileLines []string) ([]string, error) {
 			} else {
 				lineHostname = strings.Split(l, " ")[0]
 			}
-			selectQ := fmt.Sprintf(yellow("Remove this line? : %s\n%s ", lineHostname, "(y/n)"))
+			selectQ := fmt.Sprintln(yellow("Remove this line? : %s\n%s ", lineHostname, "(y/n)"))
 			if mbrandom.ForceSelect(selectQ, "y", "n") == "y" {
 				err := createBackup()
 				if err != nil {
@@ -132,11 +132,11 @@ func removeLine(lineNum int, fileLines []string) ([]string, error) {
 func prevRestore() error {
 	err := mbfile.CopyFile(hostsFile, hostsFile+".pre-undo", 0666)
 	if err != nil {
-		return errors.New("Could not create pre-undo file, exiting")
+		return errors.New("could not create pre-undo file, exiting")
 	}
 	err = mbfile.CopyFile(hostsFile+".backup", hostsFile, 0666)
 	if err != nil {
-		return errors.New("Could not restore file, exiting")
+		return errors.New("could not restore file, exiting")
 	}
 
 	return nil
@@ -145,7 +145,7 @@ func prevRestore() error {
 func createBackup() error {
 	err := mbfile.CopyFile(hostsFile, hostsFile+".backup", 0666)
 	if err != nil {
-		return errors.New(fmt.Sprintf("Could not create backup of current file: \n%s", err))
+		return fmt.Errorf("could not create backup of current file: \n%s", err)
 	}
 	return nil
 }
