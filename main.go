@@ -24,7 +24,7 @@ var hostsFile string
 
 func main() {
 	if runtime.GOOS == "windows" {
-		fmt.Printf("%s\n", red("I know this breaks your heart, but this will not work on Windows"))
+		fmt.Printf("%s\n", red("I know this breaks your heart, but this will not work on Windows for now"))
 		os.Exit(0)
 	}
 
@@ -76,7 +76,7 @@ func main() {
 		log.Fatalf("Could not read current file: %s\n%s", hostsFile, err)
 	}
 
-	if fixLine >= len(hostsLines) {
+	if fixLine >= len(hostsLines)+1 {
 		fmt.Printf("There aren't %s lines in the file, try again\n", red(fixLineStr))
 		os.Exit(0)
 	}
